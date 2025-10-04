@@ -1,6 +1,6 @@
-from stt import listen_and_transcribe
-from agent import run_agent
-from tts import speak
+from modules.stt import listen_and_transcribe
+from core.agent import run_agent
+from modules.tts import speak
 
 print("🎤 Speak something... Say 'end' to stop.")
 
