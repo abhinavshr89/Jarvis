@@ -1,0 +1,94 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual Environment
+myenv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# Environment variables
+.env
+.env.local
+.venv
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Project specific
+# Audio files
+*.wav
+*.mp3
+temp.wav
+response_*.mp3
+
+# Database
+*.sqlite3
+*.db
+checkpoints.sqlite3
+
+# Screenshots (uncomment if you want to ignore them)
+# screenshots/
+# *.png
+
+# Logs
+*.log
+
+# OS
+Thumbs.db
+.DS_Store
