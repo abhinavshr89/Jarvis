@@ -90,3 +90,6 @@ def run_agent(user_input: str, thread_id: str = "user1") -> str:
         last_message = response["messages"][-1]
         return last_message.content if hasattr(last_message, 'content') else str(last_message)
     return "No response"
+
+
+

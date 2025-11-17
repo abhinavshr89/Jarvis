@@ -1,19 +1,56 @@
 from modules.stt import listen_and_transcribe
 from core.agent import run_agent
-from modules.tts import speak
 
-print("🎤 Speak something... Say 'end' to stop.")
+def voice_mode():
+    """Handle voice-based interaction"""
+    print("🎤 Voice mode activated. Speak something... Say 'end' to stop.")
+    while True:
+        text = listen_and_transcribe()
+        print("🎤 You said:", text)
+        
+        response = run_agent(text)
+        print("🤖 Assistant:", response)
+        
+        if "END_PROGRAM" in response:
+            print("🛑 Program ended.")
+            break
 
-while True:
-    text = listen_and_transcribe()
-    print("🎤 You said:", text)
+def text_mode():
+    """Handle text-based interaction"""
+    print("⌨️  Text mode activated. Type your message... Type 'end' to stop.")
+    while True:
+        text = input("You: ").strip()
+        if not text:
+            continue
+            
+        response = run_agent(text)
+        print("🤖 Assistant:", response)
+        
+        if "END_PROGRAM" in response or text.lower() == 'end':
+            print("🛑 Program ended.")
+            break
 
-    response = run_agent(text)
-    print("🤖 Assistant:", response)
+def main():
+    """Main function with mode selection"""
+    print("=" * 50)
+    print("🤖 AI Assistant")
+    print("=" * 50)
+    print("\nChoose your input mode:")
+    print("1. Voice mode (speech-to-text)")
+    print("2. Text mode (keyboard input)")
+    print("=" * 50)
+    
+    while True:
+        choice = input("\nEnter your choice (1 or 2): ").strip()
 
-    # 🔊 Speak the response
-    speak(response)
+        if choice == "1":
+            voice_mode()
+            break
+        elif choice == "2":
+            text_mode()
+            break
+        else:
+            print("❌ Invalid choice. Please enter 1 or 2.")
 
-    if "END_PROGRAM" in response:
-        print("🛑 Program ended.")
-        break
+if __name__ == "__main__":
+    main()
