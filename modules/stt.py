@@ -1,25 +1,43 @@
 import os
-import whisper
-import speech_recognition as sr
+import json
+import sounddevice as sd
+from vosk import Model, KaldiRecognizer
 
-# Load model
-model = whisper.load_model("small")
-r = sr.Recognizer()
-mic = sr.Microphone()
 
 # Ensure 'data' directory exists
 DATA_DIR = os.path.join(os.path.dirname(__file__), "../data")
 os.makedirs(DATA_DIR, exist_ok=True)
 
+# Load Vosk model (downloaded separately)
+MODEL_PATH = os.path.join(os.path.dirname(__file__), "../model")
+
+if not os.path.exists(MODEL_PATH):
+    raise RuntimeError(
+        f"Vosk model not found at {MODEL_PATH}. "
+        "Download a model from https://alphacephei.com/vosk/models "
+        "and extract it into a folder named 'model'."
+    )
+
+model = Model(MODEL_PATH)
+
 def listen_and_transcribe():
-    """Capture audio and return transcribed text."""
-    with mic as source:
-        r.adjust_for_ambient_noise(source)
-        audio = r.listen(source)
+    """Capture audio and return text using Vosk."""
+    recognizer = KaldiRecognizer(model, 16000)
 
-    temp_path = os.path.join(DATA_DIR, "temp.wav")
-    with open(temp_path, "wb") as f:
-        f.write(audio.get_wav_data())
+    with sd.RawInputStream(
+        samplerate=16000,
+        blocksize=8000,
+        dtype="int16",
+        channels=1
+    ) as stream:
 
-    result = model.transcribe(temp_path)
-    return result["text"].strip()
+        print("🎤 Listening...")
+
+        while True:
+            data = stream.read(4000)[0]
+
+            if recognizer.AcceptWaveform(bytes(data)):
+                result = json.loads(recognizer.Result())
+                text = result.get("text", "").strip()
+                if text:
+                    return text  # Return as soon as speech is detected

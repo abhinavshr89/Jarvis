@@ -1,5 +1,7 @@
 from modules.stt import listen_and_transcribe
 from core.agent import run_agent
+from dotenv import load_dotenv
+load_dotenv()
 
 def voice_mode():
     """Handle voice-based interaction"""
